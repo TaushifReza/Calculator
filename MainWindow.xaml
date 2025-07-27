@@ -5,8 +5,147 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="Calculator" Height="500" Width="320" 
+        ResizeMode="CanMinimize" 
+        WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown"
+        Focusable="True">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Background" Value="#F0F0F0"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E0E0E0"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#D0D0D0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="NumberButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FFFFFF"/>
+        </Style>
+        <Style x:Key="OperatorButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#FF9500"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFAD33"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FunctionButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#A0A0A0"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#B0B0B0"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="MemoryButtonStyle" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="#4CAF50"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#66BB6A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Display -->
+        <Border Grid.Row="0" Background="Black" Padding="10,15" Margin="0,0,0,10">
+            <TextBox x:Name="Display" 
+                     Text="0" 
+                     FontSize="32" 
+                     FontFamily="Consolas"
+                     HorizontalContentAlignment="Right" 
+                     VerticalContentAlignment="Center"
+                     IsReadOnly="True" 
+                     BorderThickness="0"
+                     Background="Black"
+                     Foreground="White"
+                     MaxLength="20"
+                     Height="50"/>
+        </Border>
+
+        <!-- Memory indicator -->
+        <TextBlock x:Name="MemoryIndicator" 
+                   Grid.Row="1" 
+                   Text="M" 
+                   FontSize="12" 
+                   FontWeight="Bold"
+                   HorizontalAlignment="Left" 
+                   Foreground="Red"
+                   Visibility="Collapsed"
+                   Margin="5,0,0,5"/>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Row 0 - Memory Functions -->
+            <Button Grid.Row="0" Grid.Column="0" Content="MRC" Click="MemoryRecall_Click" Style="{StaticResource MemoryButtonStyle}"/>
+            <Button Grid.Row="0" Grid.Column="1" Content="M+" Click="MemoryAdd_Click" Style="{StaticResource MemoryButtonStyle}"/>
+            <Button Grid.Row="0" Grid.Column="2" Content="M-" Click="MemorySubtract_Click" Style="{StaticResource MemoryButtonStyle}"/>
+            <Button Grid.Row="0" Grid.Column="3" Content="MC" Click="MemoryClear_Click" Style="{StaticResource MemoryButtonStyle}"/>
+
+            <!-- Row 1 -->
+            <Button Grid.Row="1" Grid.Column="0" Content="AC" Click="ClearAll_Click" Style="{StaticResource FunctionButtonStyle}"/>
+            <Button Grid.Row="1" Grid.Column="1" Content="C" Click="ClearLast_Click" Style="{StaticResource FunctionButtonStyle}"/>
+            <Button Grid.Row="1" Grid.Column="2" Content="." Click="Dot_Click" Style="{StaticResource FunctionButtonStyle}"/>
+            <Button Grid.Row="1" Grid.Column="3" Content="÷" Click="Operator_Click" Style="{StaticResource OperatorButtonStyle}"/>
+
+            <!-- Row 2 -->
+            <Button Grid.Row="2" Grid.Column="0" Content="7" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="2" Grid.Column="1" Content="8" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="2" Grid.Column="2" Content="9" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="2" Grid.Column="3" Content="×" Click="Operator_Click" Style="{StaticResource OperatorButtonStyle}"/>
+
+            <!-- Row 3 -->
+            <Button Grid.Row="3" Grid.Column="0" Content="4" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="5" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="3" Grid.Column="2" Content="6" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="3" Grid.Column="3" Content="-" Click="Operator_Click" Style="{StaticResource OperatorButtonStyle}"/>
+
+            <!-- Row 4 -->
+            <Button Grid.Row="4" Grid.Column="0" Content="1" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="4" Grid.Column="1" Content="2" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="4" Grid.Column="2" Content="3" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="4" Grid.Column="3" Content="+" Click="Operator_Click" Style="{StaticResource OperatorButtonStyle}"/>
+
+            <!-- Row 5 -->
+            <Button Grid.Row="5" Grid.Column="0" Content="00" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="5" Grid.Column="1" Content="0" Click="Number_Click" Style="{StaticResource NumberButtonStyle}"/>
+            <Button Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Content="=" Click="Equals_Click" Style="{StaticResource OperatorButtonStyle}"/>
+        </Grid>
     </Grid>
 </Window>
