@@ -2,6 +2,9 @@
 
 A desktop calculator application built with C# and WPF (.NET 8), featuring basic arithmetic operations, memory functions, and keyboard support.
 
+<img width="596" height="877" alt="image" src="https://github.com/user-attachments/assets/acf1f328-aac1-4e4c-87a8-bbf19af56a3e" />
+
+
 ## Project Structure
 ```
 Calculator/
