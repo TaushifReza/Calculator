@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Calculator"
         mc:Ignorable="d"
-        Title="Calculator" Height="500" Width="320" 
+        Title="Calculator" Height="600" Width="420"
         ResizeMode="CanMinimize" 
         WindowStartupLocation="CenterScreen"
         KeyDown="Window_KeyDown"
